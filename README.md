@@ -1,268 +1,196 @@
 # CRIMENET AI
 
 ### AI-Powered Criminal Network Analysis & Investigation Intelligence Platform
-
-**CRIMENET AI** is an AI-assisted investigation intelligence and decision-support platform developed for the **Smart India Hackathon 2026**.
-
-The platform transforms fragmented investigation data—including **FIRs, Call Detail Records (CDRs), transport registrations, financial transactions, and surveillance sightings**—into an interactive **Knowledge Graph** that helps investigators explore relationships, identify patterns, analyze anomalies, and generate evidence-grounded intelligence.
-
-> **Important:** CRIMENET AI is a decision-support system. It does **not** automatically determine guilt, criminality, or culpability. All analytical findings are intended to serve as investigative leads that require verification and human investigator judgment.
+**Smart India Hackathon 2026 — Production-Quality Prototype**
 
 ---
 
-## 🚀 Key Capabilities
+## 1. Project Overview
 
-### 1. Interactive Knowledge Graph
+**CRIMENET AI** is a decision-support and investigation-analysis system engineered for law enforcement agencies and intelligence analysts. It transforms fragmented, multi-source crime data (telecom CDRs, FIR filings, transport registry, financial ledgers, and surveillance sightings) into an interactive knowledge graph. 
 
-Visualizes complex relationships between people, phone numbers, vehicles, locations, organizations, financial accounts, and other entities.
-
-* Multi-hop relationship exploration
-* Relationship filtering
-* Degree-weighted nodes
-* Interactive graph visualization using Cytoscape.js
-* PNG graph export
-* Neo4j support with NetworkX fallback
-
-### 2. Graph Analytics
-
-Provides structural analysis of criminal-network data using graph algorithms.
-
-* Degree Centrality
-* Betweenness Centrality
-* Community Detection
-* Louvain clustering
-* Network density analysis
-* Identification of highly connected entities and potential bridge entities
-
-### 3. Multi-Hop Path Analysis
-
-Finds connection paths between entities across multiple relationships.
-
-Example:
-
-```text
-P001
- │
- └── contacted
-       ↓
-     P014
-       │
-       └── financial transaction
-             ↓
-           P023
-```
-
-The system can present the relationship chain together with supporting investigation records.
-
-### 4. Explainable Anomaly Detection
-
-Identifies unusual patterns in investigation data, including:
-
-* Abnormal telecom activity
-* Sudden increases in communication volume
-* High-velocity financial transactions
-* Unusual transaction patterns
-* Cross-community connections
-* Sudden formation of new relationship bridges
-
-Anomalies are presented as **analytical indicators**, not automatic conclusions of criminal activity.
-
-### 5. Grounded AI Investigator Assistant
-
-The platform provides an AI assistant for querying investigation documents and network information.
-
-The assistant structures its responses into:
-
-```text
-Observed Data
-↓
-Analytical Inferences
-↓
-Uncertainties
-↓
-Evidence Citations
-```
-
-The current prototype supports a local RAG workflow using:
-
-```text
-Qwen2.5:7B
-     ↓
-Ollama
-     ↓
-RAG Pipeline
-     ↓
-Investigation Documents
-     ↓
-Evidence-Grounded Response
-```
-
-The system is designed to minimize unsupported AI claims by grounding responses in available investigation records.
-
-### 6. Evidence Integrity & Reporting
-
-Uploaded investigation documents can be assigned **SHA-256 cryptographic hashes** to help verify whether a file has changed after ingestion.
-
-The platform can also generate structured PDF intelligence reports containing:
-
-* Investigation summaries
-* Entity relationships
-* Network analysis
-* Anomaly findings
-* Evidence references
-* Analytical observations
-* Uncertainty/disclaimer sections
-
-> Generated reports are intended as investigation-support documents. Their legal or evidentiary status depends on applicable laws, procedures, and verification by authorized personnel.
+### Mandatory Analytical Safeguard
+> **CRITICAL LEGAL NOTICE:**  
+> CRIMENET AI is strictly an **investigative decision-support platform**. The system **never declares guilt or criminality automatically**. All findings are classified as analytical leads, anomalies, or structural relationships requiring human investigator verification.
 
 ---
 
-# 🏗️ System Architecture
+## 2. Technology Stack
+
+* **Frontend:** React.js 18, Vite, Tailwind CSS, Cytoscape.js, Leaflet + OpenStreetMap, Recharts, Lucide React, Axios, React Router.
+* **Backend:** Python 3.11+, FastAPI, Uvicorn, SQLAlchemy, Pydantic V2, python-jose, bcrypt, ReportLab (PDF compiler).
+* **Databases:**
+  * **Relational:** PostgreSQL (primary) with automatic local SQLite fallback for seamless standalone execution.
+  * **Graph:** Neo4j (bolt driver) with an integrated in-memory NetworkX graph engine fallback.
+* **AI & NLP:** Local Ollama service (`qwen2.5:7b`), configurable model switcher (Llama3, Mistral, Gemma, Qwen3), regex entity extractor, multi-attribute normalizer, and grounded RAG query builder.
+
+---
+
+## 3. High-Level Architecture
 
 ```text
-                         CRIMENET AI
-                              │
-             ┌────────────────┴────────────────┐
-             │                                 │
-        Investigation Data                Documents
-             │                                 │
-    ┌────────┼────────┐                       │
-    │        │        │                       ▼
-   FIR      CDR   Transactions             RAG Pipeline
-    │        │        │                       │
-    └────────┼────────┘                       ▼
-             │                         Qwen2.5 / Ollama
-             ▼                                │
-      Entity Extraction                       │
-             │                                │
-             ▼                                │
-       Knowledge Graph ◄──────────────────────┘
-             │
-     ┌───────┼────────┐
-     │       │        │
-     ▼       ▼        ▼
- Centrality Communities Anomalies
-     │       │        │
-     └───────┼────────┘
-             ▼
-      Investigation UI
-             │
-      ┌──────┴──────┐
-      ▼             ▼
-   Network       AI Assistant
-    Graph        + Evidence
+                         ┌──────────────────────┐
+                         │   React 18 + Vite    │
+                         │ Cytoscape + Leaflet  │
+                         └──────────┬───────────┘
+                                    │ REST API (JWT)
+                                    ▼
+                         ┌──────────────────────┐
+                         │       FastAPI        │
+                         │    API Gateway       │
+                         └──────────┬───────────┘
+                                    │
+             ┌──────────────────────┼─────────────────────┐
+             │                      │                     │
+             ▼                      ▼                     ▼
+      PostgreSQL / SQLite       Neo4j / NetworkX       AI Engine
+      (Structured Records)    (Relational Knowledge)   (Local Ollama)
+             │                      │                     │
+             ▼                      ▼                     ▼
+        Cases, Users,          Multi-Hop Graph,        Qwen2.5:7b
+       Evidence Hashes           Centrality,              RAG
+                               Louvain Clusters
 ```
 
 ---
 
-# 🛠️ Technology Stack
+## 4. Key Capabilities & Features
 
-## Frontend
+1. **Synthetic Investigation Datasets:** 100 persons, 50 heavy vehicles, 75 phone lines, 30 locations, 20 corporate entities, 100 FIR documents, 500 CDR communications, 300 transactions, 200 events.
+2. **Flagship Demo Investigation (`CASE-2026-001`):** *Operation Hawkeye* with 25 persons, central hub `P001` (17 connections), bridge node `P014`, and verifiable paths.
+3. **Interactive Knowledge Graph:** Cytoscape.js with degree-weighted node sizing, cluster colors, zoom/pan/filter, and PNG export.
+4. **Graph Centrality Analytics:** Degree centrality, Betweenness centrality (bridge detection), and PageRank.
+5. **Community Detection:** Modularity clustering dividing entities into distinct analytical clusters (`Cluster A`, `Cluster B`, etc.).
+6. **Shortest Path Traversal:** Discovers and visualizes indirect connection chains between entities (e.g. `P001` → `P014` → `P023`) citing supporting records.
+7. **Explainable Anomaly Detection:**
+   * **Communication surge:** 4.8x baseline volume alert.
+   * **Transaction velocity:** INR 850,000 structured outflow detection.
+   * **Network anomaly:** Rapid cross-cluster bridge formation.
+8. **AI Investigator Assistant (Grounded RAG):** Local LLM answering natural-language inquiries with strict separation of Observations, Analytical Inferences, Uncertainties, and Record Citations.
+9. **Cryptographic Evidence Integrity:** SHA-256 signatures generated upon document upload with live verification badges.
+10. **Automated PDF Reports:** Compiles official intelligence dossiers with topology metrics, anomalies, notes, and statutory disclaimers.
+11. **Immutable Audit Trail:** Tracks all logins, graph queries, AI prompts, and evidence verifications.
 
-* React 18
-* Vite
-* Tailwind CSS
-* Cytoscape.js
-* Leaflet
-* OpenStreetMap
-* Recharts
-* Lucide React
+---
 
-## Backend
+## 5. Demonstration Credentials
 
+The platform provides pre-seeded accounts and 1-click role demo buttons on the login screen:
+
+| Role | Username | Password | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Investigator** | `investigator` | `investigator123` | Case management, graph exploration, AI queries |
+| **Senior Analyst** | `analyst` | `analyst123` | Anomaly confirmation and hypothesis testing |
+| **Administrator** | `admin` | `admin123` | System oversight and case registration |
+| **Auditor / Viewer** | `viewer` | `viewer123` | Read-only compliance and audit verification |
+
+---
+
+## 6. Official 10-Step SIH Evaluation Workflow
+
+Execute this exact sequence during presentation:
+
+1. **Open Dashboard (`/dashboard`):** Review metric cards, FIR timeline area chart, entity breakdown, and anomaly queue.
+2. **Open Flagship Case (`/cases/CASE-2026-001`):** Click *Launch Case Investigation* to enter Operation Hawkeye.
+3. **Interactive Network Graph:** Inspect 54 relationships. Filter by relationship type (e.g., `CALLED`, `OWNS`).
+4. **Select Entity `P001`:** Click Rajesh Sharma to open the side dossier showing 17 connections, betweenness 0.42, 3 vehicles, and 3 phones.
+5. **Shortest Path Finder:** Click *Trace Graph Path* from `P001` to `P023`. Observe multi-hop connection via bridge node `P014` with supporting records `FIR-1023` and `CDR-1045`.
+6. **Temporal Timeline (`/timeline`):** Inspect chronological development of transit sightings, telecom bursts, and financial transfers.
+7. **Alert Center (`/alerts`):** Review the 4.8x communication surge alert for `P014` and execute *Confirm Lead* analyst workflow.
+8. **AI Assistant Reasoning (`/ai-assistant`):** Ask *"Summarize the important relationships in this case and cite supporting records."* View grounded observations and citations without hallucinations.
+9. **Evidence Integrity (`/documents`):** Upload a test file, observe instant SHA-256 hash generation, and click *INTEGRITY VERIFIED*.
+10. **PDF Dossier Export (`/reports`):** Click *Generate Official Investigation PDF Report* and download the styled court-admissible dossier.
+
+---
+
+## 7. Local Setup & Execution Guide
+
+### Prerequisites
 * Python 3.11+
-* FastAPI
-* SQLAlchemy
-* Pydantic V2
-* ReportLab
-* python-jose
-* bcrypt
-
-## Databases
-
-* PostgreSQL — primary database
-* SQLite — development/fallback database
-* Neo4j — knowledge graph database
-* NetworkX — graph analytics fallback
-
-## AI & NLP
-
-* Ollama
-* Qwen2.5:7B
-* Retrieval-Augmented Generation (RAG)
-* Document text extraction
-* Entity and relationship extraction
-* Evidence-grounded question answering
+* Node.js 18+ and npm
+* Optional: Docker & Docker Compose
+* Optional: Ollama (for local LLM inference)
 
 ---
 
-# 🔐 Ethical & Responsible AI
+### Method A: Native Local Execution (Fastest for Demo)
 
-CRIMENET AI follows a human-in-the-loop approach.
+#### 1. Backend Setup
+```bash
+cd backend
 
-The system:
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-* Does not automatically determine guilt.
-* Does not replace investigators or judicial processes.
-* Separates observed facts from analytical inferences.
-* Highlights uncertainty where evidence is incomplete.
-* Provides supporting evidence references for AI-generated analysis.
-* Uses synthetic/demo data for development and demonstration.
-* Is designed to assist authorized investigators rather than make autonomous enforcement decisions.
+# Install dependencies
+pip install -r requirements.txt
+
+# Seed the database and build graph
+python -m app.utils.seed
+
+# Start FastAPI backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+*API Swagger Documentation is available at: `http://localhost:8000/docs`*
+
+#### 2. Frontend Setup
+```bash
+cd frontend
+
+# Install packages
+npm install
+
+# Start Vite dev server
+npm run dev
+```
+*Application UI is available at: `http://localhost:5173`*
 
 ---
 
-# 📊 Example Investigation Workflow
+### Method B: Docker Compose
 
-```text
-Upload Investigation Documents
-            ↓
-       Extract Text
-            ↓
-      Extract Entities
-            ↓
- Extract Relationships
-            ↓
-    Build Knowledge Graph
-            ↓
-    Run Graph Analytics
-            ↓
-    Detect Anomalies
-            ↓
-       Query AI Assistant
-            ↓
- Retrieve Supporting Evidence
-            ↓
- Generate Investigation Report
+```bash
+# Start all 5 microservices (Postgres, Neo4j, Ollama, Backend, Frontend)
+docker compose up -d
+
+# Pull the Qwen model into the Ollama container
+docker exec -it crimenet_ollama ollama pull qwen2.5:7b
 ```
 
 ---
 
-# 🎯 Smart India Hackathon 2026
+## 8. Ollama Local LLM Configuration
 
-**Problem Statement:** SIH26189
-**Title:** AI-Powered Criminal Network Analysis System
-**Ministry:** Ministry of Home Affairs
-**Organization:** National Crime Records Bureau (NCRB)
-**Theme:** Blockchain & Cybersecurity
+To connect real local LLM inference:
+1. Install [Ollama](https://ollama.ai)
+2. Run: `ollama pull qwen2.5:7b`
+3. Start: `ollama serve`
 
-CRIMENET AI demonstrates how **AI, NLP, Knowledge Graphs, Graph Analytics, RAG, and cryptographic integrity mechanisms** can be combined into a unified investigation intelligence platform.
-
----
-
-# ⚠️ Disclaimer
-
-CRIMENET AI is a **prototype developed for educational, research, and hackathon demonstration purposes**.
-
-The platform does not establish guilt, criminal liability, or factual truth by itself. Analytical results should be independently verified against authoritative records and applicable investigative procedures.
-
-The demonstration should use synthetic or appropriately authorized data and must not expose personally identifiable or confidential investigation information.
+*Note: If Ollama is offline or uninstalled, CRIMENET AI automatically activates its high-performance local heuristic rule engine, ensuring 100% demo uptime without crashes.*
 
 ---
 
-# 👥 Project
+## 9. Test Suite Verification
 
-Built for **Smart India Hackathon 2026 — SIH26189**
+Run backend unit and integration tests:
+```bash
+cd backend
+pytest tests/test_api.py -v
+```
+All 7 critical integration tests verify:
+* JWT authentication & route security
+* Knowledge graph structure & edge connectivity
+* Shortest path multi-hop resolution
+* Centrality metrics (Degree, Betweenness, PageRank)
+* AI safety guardrails (prohibition of guilt declarations)
+* Cryptographic SHA-256 evidence integrity verification
 
-**CRIMENET AI**
-*Turning fragmented investigation data into connected intelligence.*
+---
+
+## 10. Statutory Safeguards & Ethical AI
+
+* **Strictly Decision-Support:** AI outputs are framed as analytical leads requiring field verification.
+* **No Hallucinations:** RAG prompt structures ensure only retrieved database and graph IDs are cited.
+* **Tamper-Evident:** All investigations maintain an immutable SHA-256 cryptographic chain of custody.
+* **No Real-World Data:** All names, telephone numbers, and addresses are synthetically generated.

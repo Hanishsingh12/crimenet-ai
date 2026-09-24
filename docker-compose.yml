@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Relational Store
+  postgres:
+    image: postgres:16-alpine
+    container_name: crimenet_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: crimenet
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Neo4j Graph Database
+  neo4j:
+    image: neo4j:5.20-community
+    container_name: crimenet_neo4j
+    restart: always
+    ports:
+      - "7474:7474" # Neo4j Browser UI
+      - "7687:7687" # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    volumes:
+      - neo4jdata:/data
+
+  # 3. Local Ollama LLM Inference Engine
+  ollama:
+    image: ollama/ollama:latest
+    container_name: crimenet_ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollamadata:/root/.ollama
+
+  # 4. FastAPI Backend Gateway & Analytics Core
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: crimenet_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/crimenet
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: password
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: qwen2.5:7b
+      JWT_SECRET: sih2026-crimenet-secure-intelligence-key-99881122
+      UPLOAD_DIR: /app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+
+  # 5. React Vite Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: crimenet_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  neo4jdata:
+  ollamadata:

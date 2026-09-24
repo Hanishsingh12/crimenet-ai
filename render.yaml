@@ -1,0 +1,18 @@
+services:
+  # Backend FastAPI Web Service (100% Free on Render)
+  - type: web
+    name: crimenet-ai-backend
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python -m app.utils.seed"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///./crimenet.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: UPLOAD_DIR
+        value: ./uploads
