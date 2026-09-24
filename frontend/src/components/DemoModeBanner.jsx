@@ -23,25 +23,7 @@ export default function DemoModeBanner() {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-sky-950 via-slate-900 to-indigo-950 border-b border-sky-800/40 px-4 py-2 flex items-center justify-between text-xs">
-        <div className="flex items-center space-x-3">
-          <span className="flex items-center px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
-            DEMO DATA — SYNTHETIC
-          </span>
-          <span className="text-slate-300 hidden md:inline">
-            CRIMENET AI is strictly an investigation decision-support platform. Outputs require human verification.
-          </span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setShowGuide(true)}
-            className="flex items-center space-x-1.5 px-2.5 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded font-medium shadow-sm transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-sky-200" />
-            <span>SIH 10-Step Demo Workflow</span>
-          </button>
-        </div>
-      </div>
+
 
       {showGuide && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
