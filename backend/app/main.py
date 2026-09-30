@@ -46,17 +46,23 @@ async def custom_http_exception_handler(request: Request, exc: HTTPException):
         }
     )
 
-# Include Routers
-app.include_router(auth.router, prefix="/api")
-app.include_router(cases.router, prefix="/api")
-app.include_router(entities.router, prefix="/api")
-app.include_router(graph.router, prefix="/api")
-app.include_router(analytics.router, prefix="/api")
-app.include_router(documents.router, prefix="/api")
-app.include_router(ai.router, prefix="/api")
-app.include_router(reports.router, prefix="/api")
-app.include_router(audit.router, prefix="/api")
-app.include_router(timeline_map.router, prefix="/api")
+# Include Routers with /api prefix and root fallback
+routers = [
+    auth.router,
+    cases.router,
+    entities.router,
+    graph.router,
+    analytics.router,
+    documents.router,
+    ai.router,
+    reports.router,
+    audit.router,
+    timeline_map.router
+]
+
+for r in routers:
+    app.include_router(r, prefix="/api")
+    app.include_router(r)
 
 @app.on_event("startup")
 def on_startup():
@@ -68,6 +74,7 @@ def on_startup():
         logger.error(f"Startup initialization error: {e}")
 
 @app.get("/api/dashboard/summary", response_model=DashboardSummaryResponse)
+@app.get("/dashboard/summary", response_model=DashboardSummaryResponse)
 def get_dashboard_summary(db: Session = Depends(get_db)):
     c_count = db.query(Case).count() or 3
     p_count = db.query(Person).count() or 100
@@ -125,6 +132,7 @@ def get_dashboard_summary(db: Session = Depends(get_db)):
     )
 
 @app.get("/api/health")
+@app.get("/health")
 def health_check():
     return {
         "status": "HEALTHY",
