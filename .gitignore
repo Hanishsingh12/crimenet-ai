@@ -27,11 +27,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Uploads & Reports
-uploads/*.pdf
-uploads/*.txt
-uploads/*.csv
-uploads/*.json
-!uploads/.gitkeep
+**/uploads/*
+!**/uploads/.gitkeep
 
 # IDE & OS
 .DS_Store

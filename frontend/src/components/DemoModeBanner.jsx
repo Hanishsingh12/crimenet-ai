@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldAlert, Play, CheckCircle2, ChevronRight, X, Sparkles } from 'lucide-react';
+import { ChevronRight, X, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCase } from '../context/CaseContext';
 
