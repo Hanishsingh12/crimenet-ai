@@ -22,6 +22,14 @@ export default function Login() {
   };
 
   const handleRoleQuickLogin = async (role) => {
+    const creds = {
+      ADMIN: { u: 'admin', p: 'admin123' },
+      INVESTIGATOR: { u: 'investigator', p: 'investigator123' },
+      ANALYST: { u: 'analyst', p: 'analyst123' },
+      VIEWER: { u: 'viewer', p: 'viewer123' },
+    }[role] || { u: 'investigator', p: 'investigator123' };
+    setUsername(creds.u);
+    setPassword(creds.p);
     setError('');
     const res = await quickDemoLogin(role);
     if (res.success) {
@@ -124,32 +132,36 @@ export default function Login() {
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 type="button"
+                disabled={loading}
                 onClick={() => handleRoleQuickLogin('INVESTIGATOR')}
-                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition"
+                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition disabled:opacity-50"
               >
                 <div className="font-semibold text-sky-400">Investigator</div>
                 <div className="text-[10px] text-slate-400 font-mono">Inspector R. K. Nair</div>
               </button>
               <button
                 type="button"
+                disabled={loading}
                 onClick={() => handleRoleQuickLogin('ANALYST')}
-                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition"
+                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition disabled:opacity-50"
               >
                 <div className="font-semibold text-emerald-400">Senior Analyst</div>
                 <div className="text-[10px] text-slate-400 font-mono">Meera Sen</div>
               </button>
               <button
                 type="button"
+                disabled={loading}
                 onClick={() => handleRoleQuickLogin('ADMIN')}
-                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition"
+                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition disabled:opacity-50"
               >
                 <div className="font-semibold text-purple-400">Administrator</div>
                 <div className="text-[10px] text-slate-400 font-mono">Director S. K. Verma</div>
               </button>
               <button
                 type="button"
+                disabled={loading}
                 onClick={() => handleRoleQuickLogin('VIEWER')}
-                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition"
+                className="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-200 text-left transition disabled:opacity-50"
               >
                 <div className="font-semibold text-slate-300">Auditor / Viewer</div>
                 <div className="text-[10px] text-slate-400 font-mono">Liaison Officer T. Roy</div>

@@ -22,9 +22,17 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { success: true };
     } catch (err) {
+      console.error('CRIMENET Login Error:', err);
+      const errorMsg =
+        err.response?.data?.error?.message ||
+        err.response?.data?.detail ||
+        (err.code === 'ECONNABORTED' ? 'Request timed out. Server may be waking up from sleep; please try again.' : null) ||
+        (err.message === 'Network Error' ? 'Network error: Backend server is temporarily unreachable or restarting. Please retry in a few seconds.' : null) ||
+        err.message ||
+        'Authentication failed. Please verify credentials.';
       return {
         success: false,
-        error: err.response?.data?.detail || 'Authentication failed. Please verify credentials.'
+        error: errorMsg
       };
     } finally {
       setLoading(false);
