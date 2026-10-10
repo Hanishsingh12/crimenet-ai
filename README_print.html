@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRIMENET AI - System Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4;
+      margin: 12mm 14mm 12mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.48;
+      color: #1e293b;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-size: 9.2pt;
+    }
+
+    /* Cover / Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #0f172a 100%);
+      color: #ffffff;
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      border-left: 5px solid #6366f1;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(165, 180, 252, 0.4);
+      color: #c7d2fe;
+      font-size: 7.5pt;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      border-radius: 9999px;
+      margin-bottom: 6px;
+    }
+
+    .header-title {
+      font-size: 22pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 4px 0;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-title span.highlight {
+      background: linear-gradient(to right, #818cf8, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-subtitle {
+      font-size: 10.5pt;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin: 0 0 8px 0;
+    }
+
+    .header-meta {
+      font-size: 8pt;
+      color: #94a3b8;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .header-meta span strong {
+      color: #e2e8f0;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    h2 .sec-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 8pt;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 12px;
+      margin-bottom: 5px;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    h4 {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #475569;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 6px 0;
+      color: #334155;
+      text-align: justify;
+    }
+
+    /* Callout Notice */
+    .callout-legal {
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      border-left: 4px solid #d97706;
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin: 10px 0 12px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .callout-legal-title {
+      font-weight: 700;
+      font-size: 8.5pt;
+      color: #b45309;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .callout-legal-text {
+      font-size: 8pt;
+      color: #92400e;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin: 0 0 10px 0;
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 3px;
+      color: #334155;
+    }
+
+    li strong {
+      color: #0f172a;
+    }
+
+    /* Tech stack pill badges */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin: 8px 0 12px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .tech-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 8px 11px;
+    }
+
+    .tech-card-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #4f46e5;
+      margin-bottom: 2px;
+    }
+
+    .tech-card-val {
+      font-size: 8pt;
+      color: #334155;
+      line-height: 1.35;
+    }
+
+    /* Architecture Box */
+    .arch-container {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 8px 0 12px 0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .arch-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      color: #64748b;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 3px;
+    }
+
+    .arch-code {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      font-size: 7.5pt;
+      line-height: 1.22;
+      color: #38bdf8;
+      margin: 0;
+      white-space: pre;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 8pt;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    th {
+      background: #1e293b;
+      color: #f8fafc;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 9px;
+      border: 1px solid #334155;
+      font-size: 7.8pt;
+      letter-spacing: 0.03em;
+    }
+
+    td {
+      padding: 6px 9px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      vertical-align: middle;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .role-badge {
+      display: inline-block;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 7pt;
+      text-transform: uppercase;
+    }
+
+    .role-inv { background: #e0e7ff; color: #3730a3; }
+    .role-ana { background: #dbeafe; color: #1e40af; }
+    .role-adm { background: #fef3c7; color: #92400e; }
+    .role-aud { background: #f1f5f9; color: #475569; }
+
+    /* Code Snippets */
+    code {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 7.6pt;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 7.4pt;
+      line-height: 1.4;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin: 5px 0 8px 0;
+      overflow-x: auto;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      border: 1px solid #1e293b;
+    }
+
+    pre code {
+      background: transparent;
+      color: #e2e8f0;
+      padding: 0;
+      border: none;
+      font-size: 7.4pt;
+    }
+
+    .comment { color: #64748b; font-style: italic; }
+    .cmd { color: #38bdf8; font-weight: 500; }
+
+    /* Numbered Workflow Cards */
+    .workflow-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin: 8px 0 10px 0;
+    }
+
+    .workflow-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 6px 9px;
+      font-size: 8pt;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      background: #4f46e5;
+      color: #ffffff;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 7pt;
+    }
+
+    .workflow-content {
+      flex: 1;
+      color: #334155;
+    }
+
+    .workflow-content strong {
+      color: #0f172a;
+    }
+
+    /* Features Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin: 8px 0 10px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .feature-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 3px solid #6366f1;
+      border-radius: 5px;
+      padding: 6px 9px;
+      font-size: 7.8pt;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .feature-card strong {
+      color: #0f172a;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 8.2pt;
+    }
+
+    .section-block {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Page Break Helpers */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* Footer */
+    .doc-footer {
+      margin-top: 18px;
+      padding-top: 8px;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.2pt;
+      color: #94a3b8;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cover Header Banner -->
+  <div class="header-banner">
+    <div class="badge-pill">Smart India Hackathon 2026 — Production-Quality Prototype</div>
+    <div class="header-title">
+      CRIMENET <span class="highlight">AI</span>
+    </div>
+    <div class="header-subtitle">
+      AI-Powered Criminal Network Analysis &amp; Investigation Intelligence Platform
+    </div>
+    <div class="header-meta">
+      <span><strong>Document:</strong> Technical Specification &amp; Evaluation Guide</span>
+      <span><strong>Classification:</strong> Law Enforcement Decision Support</span>
+      <span><strong>Team:</strong> PCE SIH 2026</span>
+      <span><strong>Version:</strong> 1.0 (Production)</span>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h2><span class="sec-num">1</span> Project Overview</h2>
+  <p>
+    <strong>Crimenet</strong> is a decision-support and investigation-analysis system engineered for law enforcement agencies and intelligence analysts. It transforms fragmented, multi-source crime data (telecom CDRs, FIR filings, transport registry, financial ledgers, and surveillance sightings) into an interactive knowledge graph.
+  </p>
+
+  <div class="callout-legal">
+    <div class="callout-legal-title">
+      &#9888; Mandatory Analytical Safeguard &mdash; Critical Legal Notice
+    </div>
+    <div class="callout-legal-text">
+      <strong>CRIMENET AI is strictly an investigative decision-support platform.</strong> The system <u>never declares guilt or criminality automatically</u>. All findings are classified as analytical leads, anomalies, or structural relationships requiring human investigator verification.
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <h2><span class="sec-num">2</span> Technology Stack</h2>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-card-label">Frontend</div>
+      <div class="tech-card-val">React.js 18, Vite, Tailwind CSS, Cytoscape.js, Leaflet + OpenStreetMap, Recharts, Lucide React, Axios, React Router.</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-label">Backend</div>
+      <div class="tech-card-val">Python 3.11+, FastAPI, Uvicorn, SQLAlchemy, Pydantic V2, python-jose, bcrypt, ReportLab (PDF compiler).</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-label">Relational &amp; Graph Databases</div>
+      <div class="tech-card-val"><strong>PostgreSQL</strong> (primary) with automatic local SQLite fallback.<br><strong>Neo4j</strong> (bolt driver) with an integrated in-memory NetworkX graph fallback.</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-label">AI &amp; NLP Engine</div>
+      <div class="tech-card-val">Local Ollama service (<code>qwen2.5:7b</code>), configurable model switcher (Llama3, Mistral, Gemma, Qwen3), regex entity extractor, multi-attribute normalizer, and grounded RAG query builder.</div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3 -->
+  <h2><span class="sec-num">3</span> High-Level Architecture</h2>
+  <div class="arch-container">
+    <div class="arch-header">
+      <span>TOPOLOGY DATAFLOW &amp; INTELLIGENCE PIPELINE</span>
+      <span>REST API + JWT GATEWAY</span>
+    </div>
+    <pre class="arch-code">
+                         ┌──────────────────────┐
+                         │   React 18 + Vite    │
+                         │ Cytoscape + Leaflet  │
+                         └──────────┬───────────┘
+                                    │ REST API (JWT)
+                                    ▼
+                         ┌──────────────────────┐
+                         │       FastAPI        │
+                         │    API Gateway       │
+                         └──────────┬───────────┘
+                                    │
+              ┌─────────────────────┼─────────────────────┐
+              │                     │                     │
+              ▼                     ▼                     ▼
+       PostgreSQL / SQLite      Neo4j / NetworkX       AI Engine
+      (Structured Records)   (Relational Knowledge)  (Local Ollama)
+              │                     │                     │
+              ▼                     ▼                     ▼
+        Cases, Users,         Multi-Hop Graph,        Qwen2.5:7b
+       Evidence Hashes          Centrality,              RAG
+                               Louvain Clusters
+    </pre>
+  </div>
+
+  <!-- Section 4 -->
+  <h2><span class="sec-num">4</span> Key Capabilities &amp; Features</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <strong>1. Synthetic Investigation Datasets</strong>
+      100 persons, 50 heavy vehicles, 75 phone lines, 30 locations, 20 corporate entities, 100 FIR documents, 500 CDR communications, 300 transactions, 200 events.
+    </div>
+    <div class="feature-card">
+      <strong>2. Flagship Demo Investigation (CASE-2026-001)</strong>
+      <em>Operation Hawkeye</em> with 25 persons, central hub P001 (17 connections), bridge node P014, and verifiable paths.
+    </div>
+    <div class="feature-card">
+      <strong>3. Interactive Knowledge Graph</strong>
+      Cytoscape.js with degree-weighted node sizing, cluster colors, zoom/pan/filter, and PNG export.
+    </div>
+    <div class="feature-card">
+      <strong>4. Graph Centrality Analytics</strong>
+      Degree centrality, Betweenness centrality (bridge detection), and PageRank calculations.
+    </div>
+    <div class="feature-card">
+      <strong>5. Community Detection</strong>
+      Modularity clustering dividing entities into distinct analytical clusters (Cluster A, Cluster B, etc.).
+    </div>
+    <div class="feature-card">
+      <strong>6. Shortest Path Traversal</strong>
+      Discovers &amp; visualizes indirect connection chains between entities (e.g. P001 &rarr; P014 &rarr; P023) citing supporting records.
+    </div>
+    <div class="feature-card">
+      <strong>7. Explainable Anomaly Detection</strong>
+      &bull; Communication surge: 4.8x baseline volume alert.<br>
+      &bull; Transaction velocity: INR 850,000 structured outflow.<br>
+      &bull; Network anomaly: Rapid cross-cluster bridge formation.
+    </div>
+    <div class="feature-card">
+      <strong>8. AI Investigator Assistant (Grounded RAG)</strong>
+      Local LLM answering natural-language inquiries with strict separation of Observations, Analytical Inferences, Uncertainties, and Record Citations.
+    </div>
+    <div class="feature-card">
+      <strong>9. Cryptographic Evidence Integrity</strong>
+      SHA-256 signatures generated upon document upload with live verification badges.
+    </div>
+    <div class="feature-card">
+      <strong>10. Automated PDF Reports &amp; Dossiers</strong>
+      Compiles official intelligence dossiers with topology metrics, anomalies, notes, and statutory disclaimers.
+    </div>
+    <div class="feature-card" style="grid-column: span 2;">
+      <strong>11. Immutable Audit Trail</strong>
+      Tracks all user logins, graph queries, AI prompts, and evidence verifications for complete legal compliance.
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 5 -->
+  <h2><span class="sec-num">5</span> Demonstration Credentials</h2>
+  <p>The platform provides pre-seeded accounts and 1-click role demo buttons on the login screen:</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 22%;">Role</th>
+        <th style="width: 20%;">Username</th>
+        <th style="width: 22%;">Password</th>
+        <th style="width: 36%;">Demonstration Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-badge role-inv">Investigator</span></td>
+        <td><code>investigator</code></td>
+        <td><code>investigator123</code></td>
+        <td>Case management, graph exploration, AI queries</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge role-ana">Senior Analyst</span></td>
+        <td><code>analyst</code></td>
+        <td><code>analyst123</code></td>
+        <td>Anomaly confirmation and hypothesis testing</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge role-adm">Administrator</span></td>
+        <td><code>admin</code></td>
+        <td><code>admin123</code></td>
+        <td>System oversight and case registration</td>
+      </tr>
+      <tr>
+        <td><span class="role-badge role-aud">Auditor / Viewer</span></td>
+        <td><code>viewer</code></td>
+        <td><code>viewer123</code></td>
+        <td>Read-only compliance and audit verification</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 6 -->
+  <h2><span class="sec-num">6</span> Official 10-Step SIH Evaluation Workflow</h2>
+  <p>Execute this exact sequence during jury evaluation and presentation:</p>
+
+  <div class="workflow-list">
+    <div class="workflow-item">
+      <div class="workflow-step">1</div>
+      <div class="workflow-content"><strong>Open Dashboard (<code>/dashboard</code>):</strong> Review metric cards, FIR timeline area chart, entity breakdown, and anomaly queue.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">2</div>
+      <div class="workflow-content"><strong>Open Flagship Case (<code>/cases/CASE-2026-001</code>):</strong> Click <em>Launch Case Investigation</em> to enter Operation Hawkeye.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">3</div>
+      <div class="workflow-content"><strong>Interactive Network Graph:</strong> Inspect 54 relationships. Filter by relationship type (e.g., <code>CALLED</code>, <code>OWNS</code>).</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">4</div>
+      <div class="workflow-content"><strong>Select Entity P001:</strong> Click Rajesh Sharma to open the side dossier showing 17 connections, betweenness 0.42, 3 vehicles, and 3 phones.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">5</div>
+      <div class="workflow-content"><strong>Shortest Path Finder:</strong> Click <em>Trace Graph Path</em> from P001 to P023. Observe multi-hop connection via bridge node P014 with supporting records <code>FIR-1023</code> and <code>CDR-1045</code>.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">6</div>
+      <div class="workflow-content"><strong>Temporal Timeline (<code>/timeline</code>):</strong> Inspect chronological development of transit sightings, telecom bursts, and financial transfers.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">7</div>
+      <div class="workflow-content"><strong>Alert Center (<code>/alerts</code>):</strong> Review the 4.8x communication surge alert for P014 and execute <em>Confirm Lead</em> analyst workflow.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">8</div>
+      <div class="workflow-content"><strong>AI Assistant Reasoning (<code>/ai-assistant</code>):</strong> Ask <em>"Summarize the important relationships in this case and cite supporting records."</em> View grounded observations and citations without hallucinations.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">9</div>
+      <div class="workflow-content"><strong>Evidence Integrity (<code>/documents</code>):</strong> Upload a test file, observe instant SHA-256 hash generation, and click <em>INTEGRITY VERIFIED</em>.</div>
+    </div>
+    <div class="workflow-item">
+      <div class="workflow-step">10</div>
+      <div class="workflow-content"><strong>PDF Dossier Export (<code>/reports</code>):</strong> Click <em>Generate Official Investigation PDF Report</em> and download the styled court-admissible dossier.</div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 7 -->
+  <h2><span class="sec-num">7</span> Local Setup &amp; Execution Guide</h2>
+  <p><strong>Prerequisites:</strong> Python 3.11+, Node.js 18+ and npm. <em>(Optional: Docker &amp; Docker Compose, Ollama)</em></p>
+
+  <h3>Method A: Native Local Execution (Fastest for Demo)</h3>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+    <div>
+      <h4>1. Backend Setup</h4>
+      <pre><code><span class="comment"># Navigate to backend directory</span>
+<span class="cmd">cd backend</span>
+<span class="comment"># Create virtual environment</span>
+<span class="cmd">python -m venv .venv</span>
+<span class="cmd">source .venv/bin/activate</span>
+<span class="comment"># Install &amp; seed database</span>
+<span class="cmd">pip install -r requirements.txt</span>
+<span class="cmd">python -m app.utils.seed</span>
+<span class="comment"># Start FastAPI backend</span>
+<span class="cmd">uvicorn app.main:app --reload</span></code></pre>
+      <p style="font-size: 7.5pt; color: #64748b; margin: 0;"><em>Swagger Docs: <code>http://localhost:8000/docs</code></em></p>
+    </div>
+
+    <div>
+      <h4>2. Frontend Setup</h4>
+      <pre><code><span class="comment"># Navigate to frontend</span>
+<span class="cmd">cd frontend</span>
+<span class="comment"># Install and start Vite dev server</span>
+<span class="cmd">npm install</span>
+<span class="cmd">npm run dev</span></code></pre>
+      <p style="font-size: 7.5pt; color: #64748b; margin: 0;"><em>Application UI: <code>http://localhost:5173</code></em></p>
+    </div>
+  </div>
+
+  <h4>Method B: Docker Compose</h4>
+  <pre style="margin-top: 4px;"><code><span class="comment"># Start all 5 microservices (Postgres, Neo4j, Ollama, Backend, Frontend)</span>
+<span class="cmd">docker compose up -d</span>
+<span class="cmd">docker exec -it crimenet_ollama ollama pull qwen2.5:7b</span></code></pre>
+
+  <!-- Section 8 -->
+  <div class="section-block">
+    <h2><span class="sec-num">8</span> Ollama Local LLM Configuration</h2>
+    <p>To connect real local LLM inference:</p>
+    <ol style="margin-bottom: 4px;">
+      <li>Install <a href="https://ollama.ai">Ollama</a> &nbsp;|&nbsp; 2. Run: <code>ollama pull qwen2.5:7b</code> &nbsp;|&nbsp; 3. Start: <code>ollama serve</code></li>
+    </ol>
+    <p style="font-size: 7.8pt; color: #475569; margin-bottom: 8px;">
+      <em>Note: If Ollama is offline or uninstalled, CRIMENET AI automatically activates its high-performance local heuristic rule engine, ensuring 100% demo uptime without crashes.</em>
+    </p>
+  </div>
+
+  <!-- Section 9 & 10 -->
+  <div class="section-block">
+    <h2><span class="sec-num">9</span> Test Suite Verification</h2>
+    <pre style="margin: 4px 0 6px 0;"><code><span class="cmd">cd backend</span>
+<span class="cmd">pytest tests/test_api.py -v</span></code></pre>
+    <p style="font-size: 8pt; margin-bottom: 6px;">All 7 critical integration tests verify: JWT authentication &amp; route security, Knowledge graph structure &amp; edge connectivity, Shortest path multi-hop resolution, Centrality metrics (Degree, Betweenness, PageRank), AI safety guardrails (prohibition of guilt declarations), and Cryptographic SHA-256 evidence integrity verification.</p>
+  </div>
+
+  <div class="section-block">
+    <h2><span class="sec-num">10</span> Statutory Safeguards &amp; Ethical AI</h2>
+    <ul style="margin-bottom: 6px;">
+      <li><strong>Strictly Decision-Support:</strong> AI outputs are framed as analytical leads requiring field verification.</li>
+      <li><strong>No Hallucinations:</strong> RAG prompt structures ensure only retrieved database and graph IDs are cited.</li>
+      <li><strong>Tamper-Evident:</strong> All investigations maintain an immutable SHA-256 cryptographic chain of custody.</li>
+      <li><strong>No Real-World Data:</strong> All names, telephone numbers, and addresses are synthetically generated.</li>
+    </ul>
+  </div>
+
+  <div class="doc-footer">
+    <span>CRIMENET AI &mdash; Smart India Hackathon 2026 Prototype Specification</span>
+    <span>Confidential &amp; Proprietary &mdash; Law Enforcement Intelligence Platform</span>
+  </div>
+
+</body>
+</html>

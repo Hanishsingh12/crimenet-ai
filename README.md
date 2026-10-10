@@ -7,7 +7,7 @@
 
 ## 1. Project Overview
 
-**CRIMENET AI** is a decision-support and investigation-analysis system engineered for law enforcement agencies and intelligence analysts. It transforms fragmented, multi-source crime data (telecom CDRs, FIR filings, transport registry, financial ledgers, and surveillance sightings) into an interactive knowledge graph. 
+**Crimenet** is a decision-support and investigation-analysis system engineered for law enforcement agencies and intelligence analysts. It transforms fragmented, multi-source crime data (telecom CDRs, FIR filings, transport registry, financial ledgers, and surveillance sightings) into an interactive knowledge graph. 
 
 ### Mandatory Analytical Safeguard
 > **CRITICAL LEGAL NOTICE:**  
